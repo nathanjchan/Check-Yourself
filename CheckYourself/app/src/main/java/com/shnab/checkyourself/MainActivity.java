@@ -11,6 +11,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -37,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button btOpen;
     Bitmap captureImage;
 
-    // Firebase stuff
     private static final int PICK_IMAGE_REQUEST = 234;
     private Button buttonChoose, buttonUpload;
 
@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Firebase stuff
         storageReference = FirebaseStorage.getInstance().getReference();
 
         imageView = (ImageView) findViewById(R.id.image_view);
@@ -94,7 +93,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             imageView.setImageBitmap(captureImage);
             filePath = Uri.parse("picture-taken"); // To signify a picture was taken
         }
-        // Firebase stuff
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             filePath = data.getData();
 
@@ -107,7 +105,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    // Firebase stuff
     private void uploadFile() {
         System.out.println("FILEPATH: " + filePath);
         if (filePath != null && !filePath.getPath().equals("picture-taken")) {
@@ -116,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
 
-            StorageReference riversRef = storageReference.child("images/profile.jpg");
+            StorageReference riversRef = storageReference.child("images/math.jpg");
 
             riversRef.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -144,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
 
-            StorageReference riversRef = storageReference.child("images/profile.jpg");
+            StorageReference riversRef = storageReference.child("images/math.jpg");
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             captureImage.compress(Bitmap.CompressFormat.JPEG, 100, baos);
             byte[] data = baos.toByteArray();
@@ -169,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             });
         } else {
-            // error code here
+            Toast.makeText(getApplicationContext(), "No file recognized", Toast.LENGTH_LONG).show();
         }
     }
 
