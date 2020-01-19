@@ -23,4 +23,18 @@
         android:text="open camera"
         android:layout_marginTop="10dp"/>
 
+    <Button
+        android:id="@+id/buttonChoose"
+        android:text="Choose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/buttonUpload"
+        android:text="Upload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
 </LinearLayout>
