@@ -1,0 +1,23 @@
+#!/usr/bin/python
+import sys
+import requests
+import base64
+import json
+
+file_path = sys.argv[1]
+
+def mathpix_to_text(path):
+    image_uri = "data:image/jpg;base64," + base64.b64encode(open(path, "rb").read()).decode()
+    r = requests.post("https://api.mathpix.com/v3/text",
+                      data = json.dumps(
+                                        {'src': image_uri}
+                                       ),
+                      headers = {
+                                 "app_id": "onagiantwind_gmail_com",
+                                 "app_key": "1ed3bc31ceb0c60bb7e5",
+                                 "Content-type": "application/json"
+                                }
+                     )
+    return json.dumps(json.loads(r.text), indent=4, sort_keys=True)
+
+print(mathpix_to_text(file_path))

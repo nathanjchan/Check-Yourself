@@ -1,0 +1,4 @@
+{
+    "latex_styled": "\\begin{aligned}\n&2+2=4\\\\\n&7+6=13\n\\end{aligned}", 
+    "text": "\\( 2+2=4 \\)\n\\( 7+6=13 \\)"
+}
