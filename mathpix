@@ -1,23 +1,75 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 import sys
 import requests
 import base64
 import json
+import re
 
 file_path = sys.argv[1]
 
-def mathpix_to_text(path):
-    image_uri = "data:image/jpg;base64," + base64.b64encode(open(path, "rb").read()).decode()
-    r = requests.post("https://api.mathpix.com/v3/text",
-                      data = json.dumps(
-                                        {'src': image_uri}
-                                       ),
-                      headers = {
-                                 "app_id": "onagiantwind_gmail_com",
-                                 "app_key": "1ed3bc31ceb0c60bb7e5",
-                                 "Content-type": "application/json"
-                                }
-                     )
-    return json.dumps(json.loads(r.text), indent=4, sort_keys=True)
+def mathpix(path, format):
+   image_uri = "data:image/jpg;base64," + base64.b64encode(open(path, "rb").read()).decode()
+   r = requests.post("https://api.mathpix.com/v3/latex",
+                     data=json.dumps({'src': image_uri,
+                                      'formats': [format],
+                                      }),
+                     headers={
+                         "app_id": "onagiantwind_gmail_com",
+                         "app_key": "1ed3bc31ceb0c60bb7e5",
+                         "Content-type": "application/json"})
+   response = json.loads(r.text)
+   return response
 
-print(mathpix_to_text(file_path))
+
+rAsciimath = mathpix(file_path, "asciimath")
+# print(rAsciimath)
+try:
+   print(rAsciimath["asciimath"])
+except:
+   print("Error: no math recognized!")
+   sys.exit()
+# if rAsciimath["error_info"]["message"] == "Low confidence error":
+   #print("Error: no math recognized!")
+   #sys.exit()
+# print(rAsciimath["asciimath"])
+confidence = rAsciimath["latex_confidence_rate"]
+
+partitions = rAsciimath["asciimath"].split(',')
+questions = []
+questions.append('')
+n = 0
+
+
+for w in range(len(partitions)):
+   partitions[w] = partitions[w].replace('"', "")
+   partitions[w] = partitions[w].replace('[', "")
+   partitions[w] = partitions[w].replace(']', "")
+   partitions[w] = partitions[w].replace("times", "*")
+   partitions[w] = partitions[w].replace("-:", "/")
+   partitions[w] = partitions[w].replace("hline", "=")
+   partitions[w] = partitions[w].replace("quad", "")
+   partitions[w] = re.sub('[a-z]', '', partitions[w])
+   subpartitions = partitions[w].split(" ")
+   for y in range(len(subpartitions)):
+       subpartitions[y] = subpartitions[y].replace(' ', '')
+       if "=" not in subpartitions[y]:
+           questions[n] = questions[n]+subpartitions[y]
+       else:
+           questions[n] = questions[n] + subpartitions[y]
+           n += 1
+           questions.append('')
+
+for x in range(len(questions)):
+   print()
+   if questions[x] != "":
+       check = questions[x].split('=')
+       index = x+1
+       print("Q", index, ": ", questions[x], sep='')
+       print("Left hand side:", check[0], "=", eval(check[0]))
+       print("Right hand side:", check[1], "=", eval(check[1]))
+       if (eval(check[0]) == eval(check[1])):
+           print("Good job.")
+       else:
+           print("The correct answer is", eval(check[0]))
+
+print("Confidence rate:", confidence)
