@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "817896063369",
+    "firebase_url": "https://hackdavis2020.firebaseio.com",
+    "project_id": "hackdavis2020",
+    "storage_bucket": "hackdavis2020.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:817896063369:android:d54e2874336daf854a6158",
+        "android_client_info": {
+          "package_name": "com.shnab.checkyourself"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "817896063369-shvis05i2ppan2an44givle4fbpu4nc1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.shnab.checkyourself",
+            "certificate_hash": "fdab13006cafbff70c8e1e99ebf99ae51accb29c"
+          }
+        },
+        {
+          "client_id": "817896063369-8jb7mg8nv3mkjj0hqfn4d8qqvj27l4fv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpfOXKDsy5gb34HdADrnXECZXWLUaOMNk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "817896063369-8jb7mg8nv3mkjj0hqfn4d8qqvj27l4fv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
